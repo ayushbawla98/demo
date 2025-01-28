@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Camera and Microphone Access</title>
+</head>
+<body>
+    <h2>Camera and Microphone Access</h2>
+    <button id="startButton">Start Camera and Microphone Access</button>
+    <div id="message"></div>
+    <video id="videoElement" width="400" height="300" autoplay></video> <!-- Video element to show the camera feed -->
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const messageDiv = document.getElementById("message");
+        const videoElement = document.getElementById("videoElement");
+
+        startButton.addEventListener("click", function () {
+            // Show a popup message to inform the user
+            alert("We are requesting access to your camera and microphone. Please allow or deny access.");
+            
+            // Request access to the camera and microphone
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(function (stream) {
+                    // If permission granted, show the video stream in the video element
+                    videoElement.srcObject = stream;  // Link the video element to the stream
+                    messageDiv.innerHTML = "Camera and microphone access granted! You can proceed with further actions.";
+                    console.log("Access granted!");
+                })
+                .catch(function (error) {
+                    // If permission denied or any error occurs
+                    messageDiv.innerHTML = "Permission denied or an error occurred.";
+                    console.error("Error: " + error);
+                });
+        });
+    </script>
+</body>
+</html>
